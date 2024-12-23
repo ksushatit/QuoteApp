@@ -12,23 +12,35 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.example.ui.components.Nav
 import com.example.ui.theme.QuoteAppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         setContent {
+            val navController = rememberNavController()
+
             QuoteAppTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                ScaffoldApp(navController)
             }
         }
     }
+}
+
+@Composable
+fun ScaffoldApp(navController: NavController) = Scaffold(
+    modifier = Modifier.fillMaxSize(),
+    bottomBar = { Nav(navController) }
+) { innerPadding ->
+    Greeting(
+        name = "Android",
+        modifier = Modifier.padding(innerPadding)
+    )
 }
 
 @Composable
@@ -37,12 +49,4 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
         text = "Hello $name!",
         modifier = modifier
     )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    QuoteAppTheme {
-        Greeting("Android")
-    }
 }
