@@ -41,9 +41,12 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Env.ScaffoldApp() = Scaffold(
-    modifier = Modifier.fillMaxSize(),
-    bottomBar = { BottomNavigationBar() }
-) { innerPadding ->
-    NavigationHost(innerPadding)
+fun Env.ScaffoldApp(
+) {
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        bottomBar = { BottomNavigationBar() }
+    ) { innerPadding ->
+        NavigationHost(innerPadding)
+    }
 }

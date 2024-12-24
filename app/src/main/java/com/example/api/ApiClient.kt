@@ -6,14 +6,14 @@ import com.example.api.responses.QotdResponse
 import com.example.api.responses.QuotesResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
-import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.resources.Resources
 import io.ktor.client.plugins.resources.get
-import io.ktor.serialization.kotlinx.json.*
+import io.ktor.serialization.kotlinx.json.json
 
 class ApiClient {
-    val client = HttpClient {
+    private val client = HttpClient {
         install(Resources)
         install(ContentNegotiation) {
             json()

@@ -18,57 +18,45 @@ import com.example.Env
 import com.example.ui.screens.FavoriteScreen
 import com.example.ui.screens.HomeScreen
 
-data class NavRoute(
-    val name: String,
-    val icon: @Composable () -> Unit,
-    val screen: @Composable () -> Unit,
-) {
-    companion object {
-        val routes = listOf(
-            NavRoute(
-                "home",
-                icon = { Icon(Icons.Default.Home, "Home") },
-                screen = { HomeScreen() }
-            ),
-            NavRoute(
-                "fav",
-                icon = { Icon(Icons.Default.Star, "Favorite") },
-                screen = { FavoriteScreen() }
-            )
-        )
-    }
-}
-
 @Composable
 fun Env.BottomNavigationBar() {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
     NavigationBar {
-        NavRoute.routes.forEach { route ->
-            NavigationBarItem(
-                selected = currentRoute == route.name,
-                icon = route.icon,
-                onClick = {
-                    navController.navigate(route.name) {
-                        launchSingleTop = true
-                        restoreState = true
-                    }
-                },
-            )
-        }
+        NavigationBarItem(
+            selected = currentRoute == "home",
+            icon = { Icon(Icons.Default.Home, "Home") },
+            onClick = {
+                navController.navigate("home") {
+                    launchSingleTop = true
+                    restoreState = true
+                }
+            },
+        )
+        NavigationBarItem(
+            selected = currentRoute == "favorite",
+            icon = { Icon(Icons.Default.Star, "Favorite") },
+            onClick = {
+                navController.navigate("favorite") {
+                    launchSingleTop = true
+                    restoreState = true
+                }
+            },
+        )
     }
 }
 
 @Composable
-fun Env.NavigationHost(paddingValues: PaddingValues) {
+fun Env.NavigationHost(
+    paddingValues: PaddingValues,
+) {
     NavHost(
         navController = navController,
         startDestination = "home",
         modifier = Modifier.padding(paddingValues)
     ) {
-        NavRoute.routes.forEach { route ->
-            composable(route.name) { route.screen() }
-        }
+        composable("home") { HomeScreen() }
+        composable("favorite") { FavoriteScreen() }
     }
 }
