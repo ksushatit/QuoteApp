@@ -9,6 +9,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
+import androidx.room.Room
+import com.example.api.ApiClient
+import com.example.data.AppDatabase
 import com.example.ui.components.BottomNavigationBar
 import com.example.ui.components.NavigationHost
 import com.example.ui.theme.QuoteAppTheme
@@ -18,10 +21,17 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        val apiClient = ApiClient()
+        val database = Room.databaseBuilder(
+            applicationContext,
+            AppDatabase::class.java,
+            "quotes"
+        ).build()
+
         setContent {
             val navController = rememberNavController()
 
-            val env = Env(navController)
+            val env = Env(navController, apiClient, database)
 
             QuoteAppTheme {
                 env.ScaffoldApp()
