@@ -12,7 +12,7 @@ import io.ktor.client.plugins.resources.Resources
 import io.ktor.client.plugins.resources.get
 import io.ktor.serialization.kotlinx.json.*
 
-class APIClient {
+class ApiClient {
     val client = HttpClient {
         install(Resources)
         install(ContentNegotiation) {
@@ -21,10 +21,6 @@ class APIClient {
         defaultRequest {
             host = "https://favqs.com/api"
         }
-    }
-
-    private fun <T> fetch(fn: () -> T): T {
-        return fn()
     }
 
     suspend fun fetchQotd(): QotdResponse = client.get(QotdRequest()).body()
