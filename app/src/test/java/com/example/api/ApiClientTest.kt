@@ -14,6 +14,6 @@ class ApiClientTest {
     @Test
     fun fetchQuotes() = runBlocking {
         val client = ApiClient()
-        println(client.fetchQuotes(QuotesRequest(filter = "What")))
+        println(client.fetchQuotes(QuotesRequest(filter = "Whaaaaa")))
     }
 }

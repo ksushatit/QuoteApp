@@ -1,23 +1,36 @@
 package com.example.model
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Quote(
-    val id: Int,
-    val favoritesCount: Int = 0,
-    val dialogue: Boolean = false,
-    val favorite: Boolean = false,
-    val tags: List<String> = listOf(),
-    val url: String = "",
-    val upvotesCount: Int = 0,
-    val downvotesCount: Int = 0,
-    val author: String = "",
-    val authorPermalink: String = "",
-    @JsonProperty("private")
-    val privat: Boolean = false,
-    val source: String? = null,
-    val context: String? = null,
-    val body: String
+@Entity("favorite_quote")
+@JsonIgnoreProperties(
+    "favorites_count",
+    "dialogue",
+    "favorite",
+    "tags",
+    "url",
+    "upvotes_count",
+    "downvotes_count",
+    "author_permalink",
+    "private",
+    "source",
+    "context"
 )
+data class Quote(
+    @PrimaryKey
+    val id: Int = 0,
+    val author: String = "",
+    val body: String = ""
+) {
+    fun isBad(): Boolean = body.startsWith("body")
+            || body.startsWith("test")
+            || body == author
+            || body.length < 10
+            || author.isEmpty()
+
+    fun sanitized(): Quote = copy(body = body.replace("<br>", "\n"))
+}

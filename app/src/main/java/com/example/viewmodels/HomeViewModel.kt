@@ -23,8 +23,15 @@ class HomeViewModel(private val env: Env) : ViewModel() {
         )
         val res = env.apiClient.fetchQuotes(req)
 
-        quotes.value = res.quotes.filter { !isBad(it) }.map(this::sanitizeQuote)
-        
+        if (res.quotes.firstOrNull()?.id == 0) {
+            quotes.value = listOf()
+            page.value = 1
+            lastPage.value = true
+            return
+        }
+
+        quotes.value = res.quotes.filter { !it.isBad() }.map { it.sanitized() }
+
         lastQuery = query
         page.value = res.page
         lastPage.value = res.lastPage
@@ -43,24 +50,21 @@ class HomeViewModel(private val env: Env) : ViewModel() {
     suspend fun onQotd() {
         val res = env.apiClient.fetchQotd().quote
 
-        if (isBad(res)) {
+        if (res.isBad()) {
             onQotd()
             return
         }
 
-        quotes.value = listOf(sanitizeQuote(res))
+        quotes.value = listOf(res.sanitized())
 
         lastQuery = ""
         page.value = 1
         lastPage.value = true
     }
 
-    private fun sanitizeQuote(quote: Quote) =
-        quote.copy(body = quote.body.replace("<br>", "\n"))
+    fun isFavorite(quote: Quote) = env.favoritesService.isFavorite(quote)
 
-    private fun isBad(quote: Quote) =
-        quote.body.startsWith("body")
-                || quote.body.startsWith("test")
-                || quote.body == quote.author
-                || quote.body.length < 10
+    fun addFavorite(quote: Quote) = env.favoritesService.addFavorite(quote)
+
+    fun removeFavorite(quote: Quote) = env.favoritesService.removeFavorite(quote)
 }

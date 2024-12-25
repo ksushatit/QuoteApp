@@ -26,12 +26,13 @@ class MainActivity : ComponentActivity() {
             applicationContext,
             AppDatabase::class.java,
             "quotes"
-        ).build()
+        ).allowMainThreadQueries().build()
+        val favoritesService = FavoritesService(database.favoriteQuoteDao())
 
         setContent {
             val navController = rememberNavController()
 
-            val env = Env(navController, apiClient, database)
+            val env = Env(navController, apiClient, favoritesService)
 
             QuoteAppTheme(darkTheme = true) {
                 env.ScaffoldApp()

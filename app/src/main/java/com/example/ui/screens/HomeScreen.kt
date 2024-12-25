@@ -1,5 +1,6 @@
 package com.example.ui.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,8 +19,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.Button
+import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedIconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -82,7 +84,7 @@ fun Env.HomeScreen(modifier: Modifier = Modifier) {
     Box(
         modifier
             .fillMaxSize()
-            .padding(24.dp)
+            .padding(12.dp, 12.dp, 12.dp, 0.dp)
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -105,16 +107,30 @@ fun Env.HomeScreen(modifier: Modifier = Modifier) {
                 }
             }
 
-            LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp), state = listState) {
-                items(quotes) { quote ->
-                    Quote(modifier.fillMaxWidth(), quote)
+            if (quotes.isEmpty())
+                Text("Nothing here :P")
+            else
+                LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp), state = listState) {
+                    items(quotes) { quote ->
+                        Quote(
+                            modifier = modifier.fillMaxWidth(),
+                            quote = quote,
+                            starred = viewModel.isFavorite(quote),
+                            onMark = {
+                                if (it)
+                                    viewModel.addFavorite(quote)
+                                else viewModel.removeFavorite(quote)
+                            }
+                        )
+                    }
                 }
-            }
         }
 
         if (!lastPage || page > 1)
             PageNavigation(
-                Modifier.align(Alignment.BottomCenter),
+                Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = 12.dp),
                 page,
                 lastPage,
                 ::runPreviousPage,
@@ -136,27 +152,37 @@ fun PageNavigation(
     verticalAlignment = Alignment.CenterVertically
 ) {
     val mod = Modifier
-        .width(36.dp)
-        .height(36.dp)
+        .width(32.dp)
+        .height(32.dp)
 
     Box(mod, contentAlignment = Alignment.Center) {
         if (page > 1)
-            OutlinedIconButton(onClick = onPreviousPage, shape = RoundedCornerShape(8.dp)) {
+            FilledIconButton(onClick = onPreviousPage, shape = RoundedCornerShape(8.dp)) {
                 Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, "Previous page")
             }
     }
 
-    Spacer(Modifier.width(12.dp))
+    Spacer(Modifier.width(8.dp))
 
-    Box(mod, contentAlignment = Alignment.Center) {
-        Text(page.toString(), fontSize = 24.sp, fontWeight = FontWeight.SemiBold)
+    val color = MaterialTheme.colorScheme.primary
+
+    Box(
+        mod.background(color, RoundedCornerShape(8.dp)),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            page.toString(),
+            fontSize = 20.sp,
+            fontWeight = FontWeight.SemiBold,
+            color = MaterialTheme.colorScheme.inverseOnSurface
+        )
     }
 
-    Spacer(Modifier.width(12.dp))
+    Spacer(Modifier.width(8.dp))
 
     Box(mod, contentAlignment = Alignment.Center) {
         if (!lastPage)
-            OutlinedIconButton(onClick = onNextPage, shape = RoundedCornerShape(8.dp)) {
+            FilledIconButton(onClick = onNextPage, shape = RoundedCornerShape(8.dp)) {
                 Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, "Next page")
             }
     }
