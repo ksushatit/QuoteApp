@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("com.google.devtools.ksp")
+
+    kotlin("plugin.serialization") version "2.1.0"
 }
 
 android {
@@ -53,6 +55,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     testImplementation(libs.junit)
+    testImplementation(libs.junit.jupiter)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
@@ -64,7 +67,7 @@ dependencies {
     implementation("io.ktor:ktor-client-core:$ktor")
     implementation("io.ktor:ktor-client-android:$ktor")
     implementation("io.ktor:ktor-client-content-negotiation:$ktor")
-    implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor")
+    implementation("io.ktor:ktor-serialization-jackson:$ktor")
     implementation("io.ktor:ktor-client-resources:$ktor")
 
     implementation("androidx.room:room-runtime:$room")

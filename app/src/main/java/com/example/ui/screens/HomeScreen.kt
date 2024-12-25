@@ -2,6 +2,7 @@ package com.example.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -37,6 +38,10 @@ fun Env.HomeScreen(modifier: Modifier = Modifier) {
         }
     }
 
+    val runQotd: () -> Unit = {
+
+    }
+
     Column(
         modifier
             .fillMaxSize()
@@ -48,8 +53,13 @@ fun Env.HomeScreen(modifier: Modifier = Modifier) {
         TextField(value = query, label = { Text("Поиск цитаты") }, onValueChange = {
             query = it
         })
-        Button(onClick = runSearch) {
-            Text("Искать")
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Button(onClick = runSearch) {
+                Text("Найти цитату")
+            }
+            Button(onClick = runQotd) {
+                Text("Цитата дня")
+            }
         }
     }
 }

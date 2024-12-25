@@ -4,22 +4,25 @@ import com.example.api.requests.QotdRequest
 import com.example.api.requests.QuotesRequest
 import com.example.api.responses.QotdResponse
 import com.example.api.responses.QuotesResponse
+import com.fasterxml.jackson.databind.PropertyNamingStrategies
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.resources.Resources
 import io.ktor.client.plugins.resources.get
-import io.ktor.serialization.kotlinx.json.json
+import io.ktor.serialization.jackson.jackson
 
 class ApiClient {
     private val client = HttpClient {
         install(Resources)
         install(ContentNegotiation) {
-            json()
+            jackson {
+                propertyNamingStrategy = PropertyNamingStrategies.SNAKE_CASE
+            }
         }
         defaultRequest {
-            host = "https://favqs.com/api"
+            host = "favqs.com/api"
         }
     }
 

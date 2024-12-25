@@ -10,9 +10,9 @@ enum class QuotesRequestType(val type: String) {
 
 @Resource("/quotes")
 class QuotesRequest(
-    filter: String? = null,
-    type: String? = null,
-    private: Boolean? = null,
-    hidden: Boolean? = null,
-    page: Int? = null
+    val filter: String? = null,
+    val type: String? = null,
+    val private: Boolean? = null,
+    val hidden: Boolean? = null,
+    val page: Int? = null
 )
