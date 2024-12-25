@@ -4,10 +4,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -36,8 +38,7 @@ fun Env.HomeScreen(modifier: Modifier = Modifier) {
 
     val runSearch: () -> Unit = {
         coroutineScope.launch {
-            val response = viewModel.onSearch(query)
-            // TODO do sth with the response
+            viewModel.onSearch(query)
         }
     }
 
@@ -50,20 +51,24 @@ fun Env.HomeScreen(modifier: Modifier = Modifier) {
     Column(
         modifier
             .fillMaxSize()
-            .padding(12.dp),
+            .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         Text("QuoteApp", fontSize = 24.sp, fontWeight = FontWeight.Bold)
-        TextField(value = query, label = { Text("Поиск цитаты") }, onValueChange = {
-            query = it
-        })
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        TextField(
+            value = query,
+            modifier = modifier.fillMaxWidth(),
+            label = { Text("Find a quote") },
+            onValueChange = {
+                query = it
+            })
+        Row(horizontalArrangement = Arrangement.spacedBy(24.dp)) {
             Button(onClick = runSearch) {
-                Text("Найти цитату")
+                Text("Search")
             }
             Button(onClick = runQotd) {
-                Text("Цитата дня")
+                Text("Random quote")
             }
         }
 
@@ -71,7 +76,12 @@ fun Env.HomeScreen(modifier: Modifier = Modifier) {
 
         LazyColumn {
             items(quotes) { quote ->
-                Text(quote.body)
+                Card(modifier = modifier.fillMaxWidth()) {
+                    Column(Modifier.padding(12.dp)) {
+                        Text(quote.body, Modifier.padding(bottom = 8.dp))
+                        Text("© ${quote.author}")
+                    }
+                }
             }
         }
     }

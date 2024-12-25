@@ -17,5 +17,6 @@ data class Quote(
     val authorPermalink: String,
     @JsonProperty("private")
     val privat: Boolean,
+    val source: String? = null,
     val body: String
 )

@@ -22,7 +22,7 @@ class ApiClient {
             }
         }
         defaultRequest {
-            host = "favqs.com/api"
+            url("https://favqs.com/api/")
         }
     }
 
