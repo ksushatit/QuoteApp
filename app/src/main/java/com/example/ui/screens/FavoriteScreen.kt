@@ -36,7 +36,7 @@ fun Env.FavoriteScreen(modifier: Modifier = Modifier) {
 
     ) {
         Text("Favorites", fontSize = 24.sp, fontWeight = FontWeight.Bold)
-        
+
         if (quotes.isEmpty())
             Text("Nothing here :P")
         else

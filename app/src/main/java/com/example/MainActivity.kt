@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
 
             val env = Env(navController, apiClient, favoritesService)
 
-            QuoteAppTheme(darkTheme = true) {
+            QuoteAppTheme {
                 env.ScaffoldApp()
             }
         }

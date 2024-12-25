@@ -22,7 +22,7 @@ class HomeViewModel(private val env: Env) : ViewModel() {
             page = pageNum
         )
         val res = env.apiClient.fetchQuotes(req)
-
+        
         if (res.quotes.firstOrNull()?.id == 0) {
             quotes.value = listOf()
             page.value = 1
