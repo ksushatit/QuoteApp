@@ -99,7 +99,7 @@ fun Env.HomeScreen(modifier: Modifier = Modifier) {
                     query = it
                 })
             Row(horizontalArrangement = Arrangement.spacedBy(24.dp)) {
-                Button(onClick = ::runSearch) {
+                Button(onClick = ::runSearch, enabled = query.isNotEmpty()) {
                     Text("Search")
                 }
                 Button(onClick = ::runQotd) {
