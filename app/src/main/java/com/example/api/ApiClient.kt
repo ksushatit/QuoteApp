@@ -11,6 +11,7 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.resources.Resources
 import io.ktor.client.plugins.resources.get
+import io.ktor.client.request.header
 import io.ktor.serialization.jackson.jackson
 
 class ApiClient {
@@ -23,6 +24,9 @@ class ApiClient {
         }
         defaultRequest {
             url("https://favqs.com/api/")
+            // Это НЕ УГРОЗА БЕЗОПАСНОСТИ, токен не служит аутентификацией и его можно сгенерировать
+            // без аккаунта
+            header("Authorization", "Token token=f68a3e7c58b592e252ceb18ee51ab205")
         }
     }
 

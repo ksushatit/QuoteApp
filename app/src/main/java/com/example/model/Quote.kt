@@ -6,17 +6,18 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Quote(
     val id: Int,
-    val favoritesCount: Int,
-    val dialogue: Boolean,
-    val favorite: Boolean,
-    val tags: List<String>,
-    val url: String,
-    val upvotesCount: Int,
-    val downvotesCount: Int,
-    val author: String,
-    val authorPermalink: String,
+    val favoritesCount: Int = 0,
+    val dialogue: Boolean = false,
+    val favorite: Boolean = false,
+    val tags: List<String> = listOf(),
+    val url: String = "",
+    val upvotesCount: Int = 0,
+    val downvotesCount: Int = 0,
+    val author: String = "",
+    val authorPermalink: String = "",
     @JsonProperty("private")
-    val privat: Boolean,
+    val privat: Boolean = false,
     val source: String? = null,
+    val context: String? = null,
     val body: String
 )

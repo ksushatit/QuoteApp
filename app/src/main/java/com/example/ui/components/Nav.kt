@@ -4,10 +4,11 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -27,6 +28,7 @@ fun Env.BottomNavigationBar() {
         NavigationBarItem(
             selected = currentRoute == "home",
             icon = { Icon(Icons.Default.Home, "Home") },
+            label = { Text("Home") },
             onClick = {
                 navController.navigate("home") {
                     launchSingleTop = true
@@ -36,7 +38,8 @@ fun Env.BottomNavigationBar() {
         )
         NavigationBarItem(
             selected = currentRoute == "favorite",
-            icon = { Icon(Icons.Default.Star, "Favorite") },
+            icon = { Icon(Icons.Default.ThumbUp, "Favorite") },
+            label = { Text("Favorites") },
             onClick = {
                 navController.navigate("favorite") {
                     launchSingleTop = true

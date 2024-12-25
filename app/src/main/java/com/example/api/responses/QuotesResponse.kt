@@ -7,5 +7,5 @@ import kotlinx.serialization.Serializable
 data class QuotesResponse(
     val page: Int,
     val lastPage: Boolean,
-    val quotes: List<Quote>
+    val quotes: List<Quote> = listOf()
 )
